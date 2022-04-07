@@ -1,0 +1,44 @@
+//服务器：
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class TCPSever {
+    public static void main(String[] args)throws Exception{
+        ServerSocket S=new ServerSocket(6789);
+        Socket s=S.accept();
+        BufferedReader bfrIn=new BufferedReader(new InputStreamReader(s.getInputStream()));
+        PrintWriter pw=new PrintWriter(new FileWriter("d:\\p.txt"),true);
+        String line=null;
+        while ((line=bfrIn.readLine())!=null)
+        {
+
+            pw.println(line);
+        }
+        s.close();
+        S.close();
+    }
+}
+//客户端
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+
+public class TCPClient {
+    public static void main(String[] args)throws Exception {
+        Socket clientSocket = new Socket("192.168.199.147",6789);
+        BufferedReader bfr=new BufferedReader(new FileReader("c:\\a.txt"));
+        PrintWriter out =new PrintWriter(clientSocket.getOutputStream(),true);
+        String line=null;
+        while ((line=bfr.readLine())!=null)
+        {
+            out.println(line);
+        }
+        bfr.close();
+        clientSocket.close();
+
+
+    }
+}
